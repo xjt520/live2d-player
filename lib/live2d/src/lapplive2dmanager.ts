@@ -14,6 +14,7 @@ import { LAppModel } from './lappmodel';
 import { LAppPal } from './lapppal';
 import { LAppSubdelegate } from './lappsubdelegate';
 import { ResourceModel } from '@/lib/protocol';
+import * as path from 'path';
 
 /**
  * サンプルアプリケーションにおいてCubismModelを管理するクラス
@@ -49,7 +50,7 @@ export class LAppLive2DManager {
   public onTap(x: number, y: number): void {
     if (LAppDefine.DebugLogEnable) {
       LAppPal.printMessage(
-        `[APP]tap point: {x: ${x.toFixed(2)} y: ${y.toFixed(2)}}`
+          `[APP]tap point: {x: ${x.toFixed(2)} y: ${y.toFixed(2)}}`
       );
     }
 
@@ -182,10 +183,7 @@ export class LAppLive2DManager {
       this.releaseAllModel();
       return;
     }
-    // 浏览器端兼容的路径处理
-    const link = character.link;
-    const lastSlashIndex = link.lastIndexOf('/');
-    const dir = lastSlashIndex >= 0 ? link.substring(0, lastSlashIndex) + "/" : "/";
+    let dir = path.dirname(character.link) + "/";
     let modelJsonName: string = `${character.name}.model3.json`;
     if (LAppDefine.DebugLogEnable) {
       LAppPal.printMessage(`[APP]model json: ${modelJsonName}`);
