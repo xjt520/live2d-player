@@ -14,7 +14,6 @@ import { LAppModel } from './lappmodel';
 import { LAppPal } from './lapppal';
 import { LAppSubdelegate } from './lappsubdelegate';
 import { ResourceModel } from '@/lib/protocol';
-import * as path from 'path';
 
 /**
  * サンプルアプリケーションにおいてCubismModelを管理するクラス
@@ -183,7 +182,10 @@ export class LAppLive2DManager {
       this.releaseAllModel();
       return;
     }
-    let dir = path.dirname(character.link) + "/";
+    // 浏览器端兼容的路径处理
+    const link = character.link;
+    const lastSlashIndex = link.lastIndexOf('/');
+    const dir = lastSlashIndex >= 0 ? link.substring(0, lastSlashIndex) + "/" : "/";
     let modelJsonName: string = `${character.name}.model3.json`;
     if (LAppDefine.DebugLogEnable) {
       LAppPal.printMessage(`[APP]model json: ${modelJsonName}`);
